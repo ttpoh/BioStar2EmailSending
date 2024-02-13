@@ -1,0 +1,29 @@
+{
+  "name": "express_test",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "body-parser": "^1.20.2",
+    "dataformat": "^1.0.0",
+    "dateformat": "^5.0.3",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "express-error-handler": "^1.1.0",
+    "logger": "npm:Logger@^0.0.0",
+    "Logger": "^0.0.0",
+    "markdown-it": "^14.0.0",
+    "nodemon": "^3.0.3",
+    "pug": "^3.0.2",
+    "serve-static": "^1.15.0",
+    "static": "^2.0.0"
+  }
+}
