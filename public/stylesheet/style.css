@@ -1,6 +1,81 @@
 html {
     scroll-behavior: smooth;
   }
+  /* header */
+  header {
+    padding: 0px;
+    height: 50px;
+    top: 0;
+    right: 0;
+    width: 100%;
+    position: sticky ;
+    display: flex;
+    background:#5f5f5f;
+    z-index: 10;
+    color: #554F4F;
+    }
+  header li a{
+    color: #554F4F;
+    text-decoration: none;
+    font-size: 14px;
+    font-weight: 700;
+  }
+
+  header ul li + li {
+    border-right: solid 1px #554F4F;
+  }
+  header li a:hover{
+    color: orange;
+  }
+
+  .flex-box #name{
+    width: 70%;
+  }
+  .flex-box{
+    display: flex ;
+    margin: 10px;
+    height: 35px;
+    width: 95%;
+  }
+
+  /* ボタンの設定 */
+  button {
+    width: 13%;
+    min-width: 60px;
+    min-height: 34px;
+    font-size: 0.7em;
+
+    color: #554F4F;
+    background-color: #f8f8f8;
+    border: 0px;
+    
+    margin: 10px;
+    margin-right :5%;
+    margin-left: 5%;
+
+    padding: 0;
+    margin: 1%;
+    border-radius: 5px;
+  }
+  button:hover {
+    color: #554F4F;
+    background-color: gray ;
+  }
+
+  .file t {
+    margin-left: 30px;
+  }
+
+  button:active {
+    color: white;
+    background-color: #554F4F;
+  }
+  /* テキストボックス選択時のスタイル設定 */
+  input:focus {
+    background-color: blanchedalmond;
+    border: 2px solid #554F4F;
+    outline: 0;
+  }
   /* body */
   body {
     margin: 0;
@@ -43,6 +118,9 @@ html {
   header label{
     font-size: 14px;
   }
+  .fa-envelope {
+    color: #333; /* 아이콘의 색상 설정 */
+  }
   h1 ,h2{
     margin: 0;
     position: absolute;
@@ -50,6 +128,11 @@ html {
   h1 {
     left: 100px;
     bottom: 0px;
+  }
+  h1::before {
+    content: "\image\favicon.ico"; /* Font Awesome에서 사용할 아이콘 코드 */
+    font-family: "Font Awesome 5 Free"; /* 아이콘 폰트 패밀리 */
+    margin-right: 5px; /* 아이콘과 텍스트 사이 여백 조절 */
   }
   h2 {
     left: 50px;
@@ -67,9 +150,7 @@ html {
     text-align: center;
     width: 100%;
     padding: 10px 0;
-  }
-  
-  
+  }    
   
   /* その他 */
   h4 {
@@ -101,11 +182,145 @@ html {
   h3 {
     margin: 0;
   }
-  .main-container{
-    width: 90%;
-    height: auto;
-    margin: auto;
-    z-index: -4;
-    position: relative;
+  .top-container{
+    height: 650px;
+    width: 1000px;
+    margin: 2% 1% 2% 0;
+    border: 1px solid #554F4F71;
+    border-radius: 5px;
+    background-color: #fff;
+
   }
-  
+  #header{
+    background-color: #d9d9d9;
+
+  }
+  #header ul li{
+    list-style: none;
+    margin: 0;
+    font-size: 20px;
+    padding-inline-start: 3%;
+    line-height: 40px; /* 폰트 크기에 따라 조절 가능한 값 */
+  }
+  .main-container{
+    height: 400px;
+    width: 1000px;
+    margin: 2% 1% 2% 0;
+    border: 1px solid #554F4F71;
+    border-radius: 5px;
+    background-color: #fff;
+
+  }
+
+/* flex 컨테이너 스타일 */
+div.smtp-setting {
+  display: flex; /* flex 컨테이너로 만듦 */
+  justify-content: center; /* 가운데 정렬 */
+  align-items: center; /* 가운데 정렬 */
+  height: 600px; /* 뷰포트의 높이와 같게 함 */
+  background-color: white; /* 배경색 지정 */
+}
+
+/* grid 컨테이너 스타일 */
+section.setting {
+  display: grid; /* grid 컨테이너로 만듦 */
+  grid-template-columns: repeat(3, 1fr); /* 3개의 열을 동일한 비율로 나눔 */
+  grid-template-rows: repeat(13, 1fr); /* 2개의 행을 동일한 비율로 나눔 */
+  gap: 10px; /* 셀 간격 지정 */
+  width: 80%; /* flex 컨테이너의 80% 너비로 지정 */
+  height: 80%; /* flex 컨테이너의 80% 높이로 지정 */
+  background-color: white; /* 배경색 지정 */
+}
+
+/* grid 셀 스타일 */
+article.smtp-input {
+  background-color: white; /* 배경색 지정 */
+  position: relative; /* 부모 요소에 position: relative; 적용 */
+  color: white; /* 글자색 지정 */
+  font-size: 2rem; /* 글자크기 지정 */
+  display: flex; /* flex 컨테이너로 만듦 */
+  justify-content: center; /* 가운데 정렬 */
+  align-items: center; /* 가운데 정렬 */
+}
+article.smtp-input .smtp-label {
+  color: red;
+  font-size: 20px; /* 글자크기 지정 */
+  margin-bottom: 5px;
+  position: absolute;
+  top: 15px;
+  right: 150px;
+}
+.cell-container {
+  display: flex; /* flexbox를 사용하여 가로로 요소들을 정렬합니다. */
+  align-items: center; /* 수직 정렬을 수행합니다. */
+}
+.toggleSwitch {
+  width: 80px;
+  height: 30px;
+  display: block;
+  position: relative;
+  border-radius: 30px;
+  background-color: #d7eaca;
+  /* box-shadow: 0 0 16px 3px rgba(0 0 0 / 15%); */
+  cursor: pointer;
+  padding-left: 10px;
+}
+
+ /* 토글 버튼 */
+.toggleSwitch .toggleButton {
+  /* 버튼은 토글보다 작아야함  */
+  width: 30px;
+  height: 30px;
+  position: absolute;
+  top: 50%;
+  right: 2px;
+  transform: translateY(-50%);
+  border-radius: 50%;
+  background: #aee58c;
+}
+
+div.mail-setting {
+  display: flex; /* flex 컨테이너로 만듦 */
+  justify-content: center; /* 가운데 정렬 */
+  align-items: center; /* 가운데 정렬 */
+  height: 345px; /* 뷰포트의 높이와 같게 함 */
+  background-color: white; /* 배경색 지정 */
+}
+section.mail-label {
+  display: grid; /* grid 컨테이너로 만듦 */
+  grid-template-columns: repeat(2, 1fr); /* 3개의 열을 동일한 비율로 나눔 */
+  grid-template-rows: repeat(2, 1fr); /* 2개의 행을 동일한 비율로 나눔 */
+  gap: 10px; /* 셀 간격 지정 */
+  width: 90%; /* flex 컨테이너의 80% 너비로 지정 */
+  height: 90%; /* flex 컨테이너의 80% 높이로 지정 */
+  background-color: white; /* 배경색 지정 */
+}
+.grid-item {
+  color: white;
+  border: 1px solid white; /* 테두리 스타일 지정 */
+  padding: 10px; /* 내부 여백 설정 */
+  position: relative; /* 부모 요소에 position: relative; 추가 */
+}
+label {
+  margin-bottom: 5px;
+}
+/* 라벨에 특정 위치 지정 */
+#mail-label {
+  color: #554F4F;
+  font-size: 20px; /* 글자크기 지정 */
+  margin-bottom: 5px;
+  position: absolute;
+  top: 15px;
+  right: 150px;
+}
+.input-small {
+  width: 60%; /* 100% 너비를 가지도록 설정 */
+  height: 20%; /* flex 컨테이너의 80% 높이로 지정 */
+
+}
+
+.input-large {
+  width: calc(100% - 20px); /* 셀 내부 여백을 고려한 크기 계산 */
+  height: calc(100% - 10px); /* flex 컨테이너의 80% 높이로 지정 */
+
+}

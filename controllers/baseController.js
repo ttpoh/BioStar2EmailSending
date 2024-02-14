@@ -10,9 +10,8 @@ function getBase(req, res) {
     } catch(e) {
         console.log("base情報がありません");
     };  
-    res.render("base", {baseInfo: baseInfo});
+    res.render("mail", {baseInfo: baseInfo});
 }
-
 
 
 module.exports = {
