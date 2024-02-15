@@ -1,13 +1,12 @@
 var express = require('express');
 var router = express.Router();
-const baseController = require('../controllers/baseController');
+const mailController = require('../controllers/mailController');
 
 // router.get("/test", function(req,res) {
 //     res.send("/testです")
 
 // })
 
-router.get("/", baseController.getBase);
-router.post('/login', baseController.postLogin);
+router.get("/", mailController.getMail);
 
 module.exports = router;
