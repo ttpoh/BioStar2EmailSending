@@ -1,6 +1,5 @@
 extends layout
 block content
-     
     
     .content
         .window_left
@@ -9,71 +8,72 @@ block content
             <label for="mail"><i class="fas fa-envelope"></i></label>
             headerlabel メール設定
             .top-container
-                #header
-                    ul(id="ul")
-                        li 基本設定
-                div.smtp-setting
-                    section.setting
-                       each row in [1, 2, 3]
-                        each col in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]                                                    
-                          .article.smtp-input(class=highlightClass)
-                            if row === 1 && col === 1
-                                <label id="smtp-label">通知設定</label>
-                            else if row === 1 && col === 2
-                                .cell-container
-                                    <label id="smtp-label" style="margin-right: 30px;">通知ON</label>
-                                    <input type="checkbox" id="toggle" hidden> 
-                                    <label for="toggle" class="toggleSwitch">
-                                    <span class="toggleButton"></span>
-                                    </label>
-                            else if row === 1 && col === 4
-                                <label id="smtp-label">SMTP設定</label>
-                            else if row === 1 && col === 8
-                                <label id="smtp-label">SMTPサバーバー名称</label>
-                            else if row === 1 && col === 9
-                                input(type="text", id="url" name="url")
-                            else if row === 1 && col === 11
-                                <label id="smtp-label">説明</label>
-                            else if row === 1 && col === 12
-                                input(type="text", id="url" name="url")
-                            else if row === 2 && col === 1
-                                <label id="smtp-label">サバーバーアドレス</label>
-                            else if row === 2 && col === 2
-                                input(type="text", id="url" name="url")
-                            else if row === 2 && col === 4
-                                <label id="smtp-label">ポート</label>
-                            else if row === 2 && col === 5
-                                input(type="text", id="url" name="url")
-                            else if row === 2 && col === 7
-                                <label id="smtp-label">ユーザー名称</label>
-                            else if row === 2 && col === 8
-                                input(type="text", id="url" name="url")
-                            else if row === 2 && col === 10
-                                <label id="smtp-label">パスワード</label>
-                            else if row === 2 && col === 11
-                                input(type="text", id="url" name="url")
-                            else if row === 2 && col === 13
-                                <label id="smtp-label">セキュリティタイプ</label>
-                            else if row === 3 && col === 1
-                                input(type="text", id="url" name="url")
-                            else if row === 3 && col === 3
-                                <label id="smtp-label">送信者名</label>
-                            else if row === 3 && col === 4
-                                input(type="text", id="url" name="url")
-                            else if row === 3 && col === 6
-                                <label id="smtp-label">セキュリティタイプ</label>
-                            else if row === 3 && col === 7
-                                input(type="text", id="url" name="url")
-                            else if row === 3 && col === 10
-                                button(type="submit", id="smtpsave", name="smtpsave") 設定保存
-                            else if row === 3 && col === 11
-                                <label id="smtp-label">テストメール宛先</label>
-                            else if row === 3 && col === 12
-                                input(type="text", id="url" name="url")
-                            else if row === 3 && col === 13
-                                <label id="smtp-label">送信</label>
-                            //- else
-                            //-     input(type="text" placeholder=`Input ${row},${col}`, id=`input-${row}-${col}`)
+                form.form(action="/mail/smtp", method="POST")
+                    #header
+                        ul(id="ul")
+                            li 基本設定
+                    div.smtp-setting
+                        section.setting
+                           each row in [1, 2, 3]
+                            each col in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12,13]                                                    
+                               .article.smtp-input(class=highlightClass) 
+                                if row === 1  && col === 1
+                                    <label id="smtp-label">通知設定</label>
+                                else if row === 1 && col === 2
+                                    .cell-container
+                                        <label id="smtp-label" style="margin-right: 30px;" id="通知" name="通知">通知ON</label>
+                                        <input type="checkbox" id="toggle" hidden> 
+                                        <label for="toggle" class="toggleSwitch">
+                                        <span class="toggleButton"></span>
+                                        </label>
+                                else if row === 1 && col === 4
+                                    <label id="smtp-label">SMTP設定</label>
+                                else if row === 1 && col === 8
+                                    <label id="smtp-label">SMTPサバーバー名称</label>
+                                else if row === 1 && col === 9
+                                    input(type="text", id="SMTPサバーバー名称" name="SMTPサバーバー名称")
+                                else if row === 1 && col === 11
+                                    <label id="smtp-label">説明</label>
+                                else if row === 1 && col === 12
+                                    input(type="text", id="説明" name="説明")
+                                else if row === 2 && col === 1
+                                    <label id="smtp-label">サバーバーアドレス</label>
+                                else if row === 2 && col === 2
+                                    input(type="text", id="サバーバーアドレス" name="サバーバーアドレス")
+                                else if row === 2 && col === 4
+                                    <label id="smtp-label">ポート</label>
+                                else if row === 2 && col === 5
+                                    input(type="text", id="ポート" name="ポート")
+                                else if row === 2 && col === 7
+                                    <label id="smtp-label">ユーザー名称</label>
+                                else if row === 2 && col === 8
+                                    input(type="text", id="ユーザー名称" name="ユーザー名称")
+                                else if row === 2 && col === 10
+                                    <label id="smtp-label">パスワード</label>
+                                else if row === 2 && col === 11
+                                    input(type="text", id="パスワード" name="パスワード")
+                                else if row === 2 && col === 13
+                                    <label id="smtp-label">セキュリティタイプ</label>
+                                else if row === 3 && col === 1
+                                    input(type="text", id="セキュリティタイプ" name="セキュリティタイプセキュリティタイプ")
+                                else if row === 3 && col === 3
+                                    <label id="smtp-label">送信者名</label>
+                                else if row === 3 && col === 4
+                                    input(type="text", id="送信者名" name="送信者名")
+                                else if row === 3 && col === 6
+                                    <label id="smtp-label">セキュリティタイプ</label>
+                                else if row === 3 && col === 7
+                                    input(type="text", id="セキュリティタイプ" name="セキュリティタイプ")
+                                else if row === 3 && col === 10
+                                    button(type="submit", id="smtpsave", name="smtpsave") 設定保存
+                                else if row === 3 && col === 11
+                                    <label id="smtp-label">テストメール宛先</label>
+                                else if row === 3 && col === 12
+                                    input(type="text", id="テストメール宛先" name="テストメール宛先")
+                                else if row === 3 && col === 13
+                                    <label id="smtp-label">送信</label>
+                                //- else
+                                //-     input(type="text" placeholder=`Input ${row},${col}`, id=`input-${row}-${col}`)
                       
             .main-container
                 #header

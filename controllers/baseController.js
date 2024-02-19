@@ -11,13 +11,31 @@ function getBase(req, res) {
         baseInfo = JSON.parse(fs.readFileSync(filename, 'utf8'));
     } catch(e) {
         console.log("base情報がありません");
-    };  
+    };
+    
+    // fs.readFile(filename, 'utf8', (err, saveAfterData) => {
+    //     if (err) {
+    //         console.error('파일을 읽는 도중 오류가 발생했습니다:', err);
+    //         return;
+    //     }
+    // console.log('setSMTP save after data', saveAfterData);
+    // let SAjsondata = JSON.parse(saveAfterData);
+    // console.log('save after', SAjsondata);
+
+    // const afteruserData = SAjsondata.user;
+    // console.log('setSMTP afteruserData', afteruserData);
+    // const smtpData = SAjsondata.smtp;
+    // console.log('setSMTP aftersmtpData', smtpData);
+    // })
+
     console.log('getB baseInfo', baseInfo)
     res.render("base", { baseInfo: baseInfo });
 }
 function postLogin(req, res){    
+    const requestB = req;
+    console.log('PostLoginReq', requestB)
     const requestBody = req.body;
-    console.log('requestBody', requestBody)
+    console.log('PostLoginReqBody', requestBody)
     const jsonData = { user: { url: requestBody.url, user_id: requestBody.user_id, password: requestBody.password } };
 
 

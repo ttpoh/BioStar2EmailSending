@@ -8,5 +8,6 @@ const mailController = require('../controllers/mailController');
 // })
 
 router.get("/", mailController.getMail);
+router.post('/smtp', mailController.setSMTP);
 
 module.exports = router;

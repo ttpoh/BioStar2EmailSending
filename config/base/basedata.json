@@ -1,7 +1,20 @@
 {
   "user": {
-    "url": "3",
-    "user_id": "4",
-    "password": "5"
+    "url": "192.xxx.xxx.xxx",
+    "user_id": "admin",
+    "password": "admin1234"
+  },
+  "smtp": {
+    "SMTPサバーバー名称": "mailAlarm",
+    "説明": "satety",
+    "サバーバーアドレス": "192.xxx.xxx.xxx",
+    "ポート": "3000",
+    "ユーザー名称": "parents",
+    "パスワード": "asdf1234",
+    "セキュリティタイプセキュリティタイプ": "tls",
+    "送信者名": "aiden",
+    "セキュリティタイプ": "tls",
+    "smtpsave": "",
+    "テストメール宛先": "byeongwoo.lee@secureinc.co.jp"
   }
 }
