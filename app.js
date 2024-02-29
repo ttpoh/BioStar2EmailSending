@@ -2,6 +2,8 @@
 
 var createError = require('http-errors');
 const express = require('express');
+const session = require('express-session');
+
 const app = express();
 
 var path = require('path');
@@ -16,6 +18,11 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(path.join(__dirname, 'public')));
 
+app.use(session({
+  secret: session, // Change this to a long, random string
+  resave: false,
+  saveUninitialized: false
+}));
 // ルーティング
 app.use('/', baseRouter);
 app.use('/mail', mailRouter);

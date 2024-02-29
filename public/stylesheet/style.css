@@ -254,6 +254,37 @@ article.smtp-input .smtp-label {
   display: flex; /* flexbox를 사용하여 가로로 요소들을 정렬합니다. */
   align-items: center; /* 수직 정렬을 수행합니다. */
 }
+.toggle {
+  display: inline-block;
+  width: 60px;
+  height: 34px;
+  position: relative;
+  border-radius: 34px;
+  background-color: #ccd;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.toggle::before {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  background-color: #fff;
+  top: 4px;
+  left: 4px;
+  transition: transform 0.3s;
+}
+
+.toggle.on {
+  background-color: #66bb6a;
+}
+
+.toggle.on::before {
+  transform: translateX(26px);
+}
+
 .toggleSwitch {
   width: 80px;
   height: 30px;

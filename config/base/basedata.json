@@ -1,20 +1,17 @@
 {
-  "user": {
-    "url": "192.xxx.xxx.xxx",
-    "user_id": "admin",
-    "password": "admin1234"
+  "User": {
+    "url": "192.168.0.126",
+    "login_id": "admin",
+    "password": "admin1234",
+    "sessionID": "39540c4c4ca5455eaaf35f0b3027006e"
   },
   "smtp": {
-    "SMTPサバーバー名称": "mailAlarm",
-    "説明": "satety",
-    "サバーバーアドレス": "192.xxx.xxx.xxx",
-    "ポート": "3000",
-    "ユーザー名称": "parents",
-    "パスワード": "asdf1234",
-    "セキュリティタイプセキュリティタイプ": "tls",
-    "送信者名": "aiden",
-    "セキュリティタイプ": "tls",
-    "smtpsave": "",
-    "テストメール宛先": "byeongwoo.lee@secureinc.co.jp"
+    "alarm": "",
+    "ServerName": "Gmail",
+    "ServerAddress": "smtp.gmail.com",
+    "port": "587",
+    "password": "cnjx rzyb pvor hhdx",
+    "company": "solution12441@gmail.com",
+    "parents": "byeongwoo.lee@secureinc.co.jp"
   }
 }

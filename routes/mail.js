@@ -9,5 +9,9 @@ const mailController = require('../controllers/mailController');
 
 router.get("/", mailController.getMail);
 router.post('/smtp', mailController.setSMTP);
+router.post('/test', mailController.sendMail);
+router.post('/AlarmOn', mailController.alarmOn);
+router.post('/AlarmOff', mailController.alarmOff);
+
 
 module.exports = router;

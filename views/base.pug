@@ -2,7 +2,8 @@ extends layout
 block content
     script(type='text/javascript').
         var baseInfo = !{JSON.stringify(baseInfo)};
-    script(src="/../js/base/base.js")
+    //-     consol.log('pug baseInfo', baseInfo)
+    //- script(src="/../js/base/base.js")
     link(rel="stylesheet", href="/stylesheet/biostarSetting.css")
    
     .content
@@ -16,13 +17,13 @@ block content
                         h4 BioStar 2 ログイン情報
                         .flex-box
                             //- label(for="url") BIOSTAR_URL
-                            input(type="text", id="url" name="url",  placeholder="biostar2 URL", value=baseInfo.url)
+                            input(type="text", id="url" name="url",  placeholder="biostar2 URL", value = baseInfo.User.url)
                         .flex-box
-                            //- label(for="user_id") ユーザーID
-                            input(type="text", id="user_id", name="user_id", placeholder="ID", value = baseInfo.user_id)
+                            //- label(for="user_id")
+                            input(type="text", id="user_id", name="user_id", placeholder="ID", value = baseInfo.User.login_id)
                         .flex-box
                             //- label(for="password") パスワード
-                            input(type="password",id="password" name="password", placeholder="Password", value = baseInfo.password)
+                            input(type="password",id="password" name="password", placeholder="Password", value = baseInfo.User.password)
                         button(type="submit", id="basesave", name="basesave") 設定保存            
             
                         footer © 2024 SECURE Inc.  All rights reserved.

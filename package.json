@@ -19,13 +19,17 @@
     "dotenv": "^16.4.1",
     "express": "^4.18.2",
     "express-error-handler": "^1.1.0",
+    "express-session": "^1.18.0",
     "logger": "npm:Logger@^0.0.0",
     "Logger": "^0.0.0",
     "markdown-it": "^14.0.0",
+    "nodemailer": "^6.9.10",
     "nodemon": "^3.0.3",
     "pug": "^3.0.2",
+    "request": "^2.88.2",
     "serve-static": "^1.15.0",
     "socket.io": "^4.7.4",
-    "static": "^2.0.0"
+    "static": "^2.0.0",
+    "ws": "^8.16.0"
   }
 }
