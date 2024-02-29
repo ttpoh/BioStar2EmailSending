@@ -96,20 +96,73 @@ async function setSMTP(req, res) {
     res.redirect('/mail');
 })};
 
+async function testMail(){
+    fs.readFile(filename, 'utf8', (err, data) => {
+        if (err) {
+            console.error('파일을 읽는 도중 오류가 발생했습니다:', err);
+            return;
+    }
+    let jsondata = JSON.parse(data);    
+    let sessionID = jsondata.User.sessionID
+    let ServerName = jsondata.smtp.ServerName
+    let ServerAddress = jsondata.smtp.ServerAddress
+    let company = jsondata.smtp.company
+    let password = jsondata.smtp.password
+    let parents = jsondata.smtp.parents
+    let subject = '"認証 通知"' //인증 통지
+    let html = 'test mail'
+    // let html = visitTime+"に "+userName+"様が "+visitPlace+"装 に認証しました。"
+    //visitTime+"에 "+userName+"님이 "+visitPlace+" 장으로 인증했습니다.
+    try{
+        const transporter = nodemailer.createTransport({
+            service: ServerName,  // 사용하고자 하는 서비스
+            host: ServerAddress, // host를 gmail로 설정
+            port: 587,
+            secure: false,
+            auth: {
+            user: company, // Gmail 주소 입력
+            pass: password // 앱 비밀번호 입력
+                }
+            })    
+        let mailOptions = {
+            from: company,
+            to: parents,
+            subject: subject,
+            text: html
+        };
+        
+        transporter.sendMail(mailOptions, (error, info) => {
+            if (error) {
+                console.log('Error occurred:', error);
+            } else {
+                console.log('Email sent:', info.response);
+            } 
+        })
+    }catch(error){
+        if (error instanceof nodemailer.errors.NoTransportError) {
+            console.error('Nodemailer transport error:', error);
+            // Perform necessary actions to handle the error, such as logging or sending a notification
+        } else {
+            // Handle other errors
+            console.error('Error occurred:', error);
+        }
+    }
+    })
 
+}
 
-async function sendMail() {
+async function sendMail(userName, time, place) {
     console.log('getMail sendMail start')
-    // userID = id
+    visitor = userName
     // console.log('sendMail req', req)
-    // const originalDate = time;
-    // // 주어진 날짜 문자열을 Date 객체로 변환
-    // const dateObject = new Date(originalDate);
-    // // 변경된 날짜 형식으로 포맷팅
-    // const formattedDate = `${dateObject.getFullYear()}年${dateObject.getMonth() + 1}月${dateObject.getDate()}日` +
-    //                     `${dateObject.getHours()}時${dateObject.getMinutes()}分${dateObject.getSeconds()}秒`;
-    // visitTime = formattedDate
-    // visitPlace = place
+    const originalDate = time;
+    // 주어진 날짜 문자열을 Date 객체로 변환
+    const dateObject = new Date(originalDate);
+    // 변경된 날짜 형식으로 포맷팅
+    const formattedDate = `${dateObject.getFullYear()}年${dateObject.getMonth() + 1}月${dateObject.getDate()}日` +
+                        `${dateObject.getHours()}時${dateObject.getMinutes()}分${dateObject.getSeconds()}秒`;
+    visitTime = formattedDate
+    visitPlace = place
 
     fs.readFile(filename, 'utf8', (err, data) => {
         if (err) {
@@ -152,8 +205,8 @@ async function sendMail() {
     let password = jsondata.smtp.password
     let parents = jsondata.smtp.parents
     let subject = '"認証 通知"' //인증 통지
-    let html = 'contents'
-    // let html = visitTime+"に "+userName+"様が "+visitPlace+"装 に認証しました。"
+    // let html = visitor+"様が に認証しました。"
+    let html = visitTime+"に "+userName+"様が "+visitPlace+"装 に認証しました。"
     //visitTime+"에 "+userName+"님이 "+visitPlace+" 장으로 인증했습니다.
     try{
         const transporter = nodemailer.createTransport({
@@ -257,16 +310,19 @@ async function alarmOn(req, res, next) {
                 console.log('server_datetime: %s', parsedResData.Event.server_datetime);    
                 console.log('device_id: %s', parsedResData.Event.device_id.name);    
                 
-                const userID = parsedResData.Event.user_id.user_id
+                const userName = parsedResData.Event.user_id.name
                 // const userMail = parsedResData.Event.user_id.user_mail
                 // const customMail = parsedResData.Event.user_id.user_custom_fields
 
                 const visitTime = parsedResData.Event.server_datetime
                 const visitPlace = parsedResData.Event.device_id.name
                 // getUser(userID, visitTime, visitPlace)
-                // sendMail(userID, visitTime, visitPlace, ipAddress)
-                
-                sendMail()
+                sendMail(userName, visitTime, visitPlace)
+                // exports.callOtherFunction = function(req, res) {
+                //     // 다른 라우터에 연결된 함수 호출
+                //     mail.otherFunction(req, res); // 다른 라우터의 함수를 직접 호출
+                // };
+                // sendMail()
                 next()
             }else{
                 console.log('카드 승인 외 로그. ')
@@ -285,6 +341,7 @@ function alarmOff(req, res) {
 module.exports = {
     getMail,
     setSMTP,
+    testMail,
     sendMail,
     alarmOn,
     alarmOff
