@@ -1,6 +1,6 @@
 const { exec } = require('child_process');
 const request = require('request');
-
+var database = require('../sql_test.js')
 const fs = require('fs');
 require("dotenv").config();
 const nodemailer = require('nodemailer')
@@ -14,13 +14,24 @@ function asyncTask() {
       setTimeout(() => {
         console.log('Async task completed.');
         resolve(); // 작업 완료 후 Promise를 해결(resolve)
-      }, 1000); // 2초 후에 작업 완료
+      }, 1000); // 1초 후에 작업 완료
     });
   }
 
 async function getMail(req, res) {   
     console.log('getMail start')
-    let mailInfo = {};    
+    let mailInfo = {};
+    console.log('database', database)
+    database.run('CREATE TABLE Foo (id INTEGER PRIMARY KEY, name TEXT)');
+
+      console.log('테이블 생성 완료');    
+      const insertQuery = 'INSERT INTO Foo (name) VALUES (?)';
+      database.run(insertQuery, ['John Doe'], function(err) {
+        if (err) {
+            return console.error('데이터 추가 중 오류:', err.message);
+        }
+        console.log(`새로운 레코드 추가: ${this.lastID}`);
+      })
 
     if (fs.existsSync(filename)) {
         mailInfo = JSON.parse(fs.readFileSync(filename, 'utf8'));
@@ -32,21 +43,9 @@ async function getMail(req, res) {
                 smtp: { alarm: "", ServerName: '', ServerAddress: '', port: '', password: '',  company: '', parents: ''}
             }
             console.log('getMail smtpInfo', mailInfo)
-
-
-            fs.writeFile(filename, JSON.stringify(mailInfo, null, 2), (err) => {
-            if (err) {
-                console.error('Error writing file:', err);
-                res.status(500).send('Error saving data');
-                return;
-            }
-        })    
+        }
+        res.render("mail", { mailInfo: mailInfo });        
     }
-    await asyncTask(); // 비동기 작업 완료를 기다림
-
-    res.render("mail", { mailInfo: mailInfo });        
-}
-
 }
 
 async function setSMTP(req, res) {
@@ -59,9 +58,7 @@ async function setSMTP(req, res) {
     }        
     let jsondata = JSON.parse(data);    
     const userData = jsondata.User;    
-    // 기존 데이터를 파싱합니다.    
     const requestSBody = req.body  
-
     const updatedJson = {
         User: userData,
         smtp: { alarm: "", ServerName: requestSBody.SMTPサバーバー名称, ServerAddress: requestSBody.SMTPサバーバーアドレス, port: requestSBody.ポート, password: requestSBody.SMTPパスワード,  company: requestSBody.送信者名メール, parents: requestSBody.受信者メール }
@@ -76,23 +73,7 @@ async function setSMTP(req, res) {
         }
         console.log('Data saved successfully');
         res.json({ message: 'Data saved successfully' });
-    });
-
-    // fs.readFile(filename, 'utf8', (err, saveAfterData) => {
-    //     if (err) {
-    //         console.error('파일을 읽는 도중 오류가 발생했습니다:', err);
-    //         return;
-    //     }
-    // console.log('setSMTP save after data', saveAfterData);
-    // let SAjsondata = JSON.parse(saveAfterData);
-    // console.log('save after', SAjsondata);
-
-    // const afteruserData = SAjsondata.user;
-    // console.log('setSMTP afteruserData', afteruserData);
-    // const smtpData = SAjsondata.smtp;
-    // console.log('setSMTP aftersmtpData', smtpData);
-    // })
-    
+    });    
     res.redirect('/mail');
 })};
 
@@ -115,8 +96,8 @@ async function testMail(){
     //visitTime+"에 "+userName+"님이 "+visitPlace+" 장으로 인증했습니다.
     try{
         const transporter = nodemailer.createTransport({
-            service: ServerName,  // 사용하고자 하는 서비스
-            host: ServerAddress, // host를 gmail로 설정
+            service: ServerName,  // 使用しようとするサービス, 사용하고자 하는 서비스
+            host: ServerAddress, // hostをgmailに設定, host를 gmail로 설정
             port: 587,
             secure: false,
             auth: {
@@ -131,6 +112,8 @@ async function testMail(){
             text: html
         };
         
+        // TODO: sendMail의 응답이 안오는경우에 대한 예외처리, sendMailの応答が来ない場合に対する例外処理
+        // 서버 주소나 계정 정보가 잘못된 경우에 대한 예외처리, サーバー アドレスまたはアカウント情報が正しくない場合の例外処理
         transporter.sendMail(mailOptions, (error, info) => {
             if (error) {
                 console.log('Error occurred:', error);
@@ -171,34 +154,6 @@ async function sendMail(userName, time, place) {
     }
     let jsondata = JSON.parse(data);    
     let sessionID = jsondata.User.sessionID
-    // await asyncTask(); // 비동기 작업 완료를 기다림
-    // request.get({
-    //     url: "https://"+ipAddress+'api/users/'+userID,
-    //     method: 'GET',
-    //     rejectUnauthorized: false,
-    //     json: true,
-    //     headers: {
-    //         accept: "application/json",
-    //         "content-type": "application/json",
-    //         "bs-session-id": sessionID
-    //     }
-    //     // body: eventSearchBody
-    //         }, function(error, response, body){
-    //         console.log("error", error);
-    //         const jsonStRes = JSON.stringify(response);
-    //         const parsedResData = JSON.parse(jsonStRes);
-    //         console.log("get User parsedResData.body", parsedResData.body);            
-
-    //         const userObject= JSON.stringify(parsedResData.body["User"]);
-    //         const userJson = JSON.parse(userObject);
-            
-    //         console.log("userJson", typeof(userJson));            
-    //         console.log("userJson", userJson);            
-    //         console.log("=============get use response", userJson.email);
-    //         userEmail = userJson.email
-    //         userName = userJson.name
-    // })        
-    // console.log('sendMail jsondata', jsondata)
     let ServerName = jsondata.smtp.ServerName
     let ServerAddress = jsondata.smtp.ServerAddress
     let company = jsondata.smtp.company
@@ -208,40 +163,40 @@ async function sendMail(userName, time, place) {
     // let html = visitor+"様が に認証しました。"
     let html = visitTime+"に "+userName+"様が "+visitPlace+"装 に認証しました。"
     //visitTime+"에 "+userName+"님이 "+visitPlace+" 장으로 인증했습니다.
-    try{
-        const transporter = nodemailer.createTransport({
-            service: ServerName,  // 사용하고자 하는 서비스
-            host: ServerAddress, // host를 gmail로 설정
-            port: 587,
-            secure: false,
-            auth: {
-            user: company, // Gmail 주소 입력
-            pass: password // 앱 비밀번호 입력
-                }
-            })    
-        let mailOptions = {
-            from: company,
-            to: parents,
-            subject: subject,
-            text: html
-        };
-        
-        transporter.sendMail(mailOptions, (error, info) => {
-            if (error) {
-                console.log('Error occurred:', error);
+        try{
+            const transporter = nodemailer.createTransport({
+                service: ServerName,  // 사용하고자 하는 서비스
+                host: ServerAddress, // host를 gmail로 설정
+                port: 587,
+                secure: false,
+                auth: {
+                user: company, // Gmail 주소 입력
+                pass: password // 앱 비밀번호 입력
+                    }
+                })    
+            let mailOptions = {
+                from: company,
+                to: parents,
+                subject: subject,
+                text: html
+            };
+            
+            transporter.sendMail(mailOptions, (error, info) => {
+                if (error) {
+                    console.log('Error occurred:', error);
+                } else {
+                    console.log('Email sent:', info.response);
+                } 
+            })
+        }catch(error){
+            if (error instanceof nodemailer.errors.NoTransportError) {
+                console.error('Nodemailer transport error:', error);
+                // Perform necessary actions to handle the error, such as logging or sending a notification
             } else {
-                console.log('Email sent:', info.response);
-            } 
-        })
-    }catch(error){
-        if (error instanceof nodemailer.errors.NoTransportError) {
-            console.error('Nodemailer transport error:', error);
-            // Perform necessary actions to handle the error, such as logging or sending a notification
-        } else {
-            // Handle other errors
-            console.error('Error occurred:', error);
+                // Handle other errors
+                console.error('Error occurred:', error);
+            }
         }
-    }
     })
     // res.redirect('/mail');
 }
@@ -275,8 +230,13 @@ async function alarmOn(req, res, next) {
 
     ws.on('open', function open() {
         console.log('WebSocket Client Connected');
+        
         ws.send('bs-session-id' + "=" + sessionID);        
-        setTimeout(function() { eventStart(); }, 1000);        
+        
+        setTimeout(function() { 
+            eventStart(); 
+        }, 1000);      
+
         function eventStart(){
             console.log('eventRequest start')
             request.post({
@@ -299,10 +259,10 @@ async function alarmOn(req, res, next) {
         // console.log('strData', strData)
         const parsedResData = JSON.parse(strData);
         if('Event' in parsedResData)  {
-            const eventTypeID = parsedResData.Event.event_type_id.code //불러온 값을 변수에 담아서 출력해야 한다. 
+            const eventTypeID = parsedResData.Event.event_type_id.code //読み込んだ値を変数に入れて出力しなければならない。 
             console.log('eventID', eventTypeID);          
             if(eventTypeID == '4867') {
-                console.log('얼굴 승인 불러오기. ')
+                console.log('顔の承認を呼ぶ。')
                 console.log('parsedResData', parsedResData)
                 console.log('user_data: %s', parsedResData.Event);
                 
@@ -313,22 +273,15 @@ async function alarmOn(req, res, next) {
                 const userName = parsedResData.Event.user_id.name
                 // const userMail = parsedResData.Event.user_id.user_mail
                 // const customMail = parsedResData.Event.user_id.user_custom_fields
-
                 const visitTime = parsedResData.Event.server_datetime
                 const visitPlace = parsedResData.Event.device_id.name
-                // getUser(userID, visitTime, visitPlace)
                 sendMail(userName, visitTime, visitPlace)
-                // exports.callOtherFunction = function(req, res) {
-                //     // 다른 라우터에 연결된 함수 호출
-                //     mail.otherFunction(req, res); // 다른 라우터의 함수를 직접 호출
-                // };
-                // sendMail()
                 next()
             }else{
                 console.log('카드 승인 외 로그. ')
             }
         }
-        });
+    });
     res.redirect('/mail');
 }
 

@@ -9,8 +9,6 @@
 var app = require('./app');
 var debug = require('debug')('express-app:server');
 var http = require('http');
-var fs = require('fs');
-
 
 /**
  * Get port from environment and store in Express.
@@ -34,20 +32,19 @@ server.on('error', onError);
 server.on('listening', onListening);
 
 
-// const socketIo = require('socket.io');
+const socketIo = require('socket.io');
 
 /**
  * socket.ioのモジュールを読み込む
  */
-// const io = socketIo(server);
+const io = socketIo(server);
 
-
-// io.on('connection', (socket)=> {
-//     console.log("a user connected!");  
-//     socket.on('disconnect', () => {
-//       console.log('user disconnected');
-//     });
-// });
+io.on('connection', (socket)=> {
+    console.log("a user connected!");  
+    socket.on('disconnect', () => {
+      console.log('user disconnected');
+    });
+});
 /**
  * Normalize a port into a number, string, or false.
  */
@@ -107,5 +104,4 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
-
-module.exports = { server};
+module.exports = {server};
